@@ -132,7 +132,7 @@ const MediaDetail = () => {
                   <img
                     src={
                       mediaUrl ||
-                      `https://mediahub-streaming.onrender.com${media.path}`
+                      `${import.meta.env.VITE_BASE_URL}${media.path}`
                     }
                     alt={media.name}
                     className="rounded-lg w-full h-auto object-contain max-h-[70vh] transition-opacity hover:opacity-95"

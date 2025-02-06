@@ -64,12 +64,9 @@ app.use(limiter);
 
 app.use(
   cors({
-    origin: [
-      "https://sparkly-bombolone-96ff25.netlify.app",
-      "http://localhost:5173",
-    ],
-    methods: "GET,POST,PUT,DELETE",
-    allowedHeaders: "Content-Type,Authorization",
+    origin: process.env.CORS_ORIGIN.split(","), // Convert comma-separated string into an array
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true, // If you are using cookies or authentication
   })
 );

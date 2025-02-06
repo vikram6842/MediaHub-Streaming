@@ -88,7 +88,7 @@ const MediaList = () => {
             >
               {item.type === "image" && (
                 <img
-                  src={`https://mediahub-streaming.onrender.com${item.path}`}
+                  src={`${import.meta.env.VITE_BASE_URL}${item.path}`}
                   alt={item.name}
                   className="h-full w-full object-cover transition-opacity group-hover:opacity-90"
                 />
