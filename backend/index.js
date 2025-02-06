@@ -62,14 +62,17 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
-// CORS Configuration
-const corsOptions = {
-  origin: process.env.CORS_ORIGIN.split(","), // Support multiple origins
-  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
-  credentials: true,
-};
-app.use(cors(corsOptions));
+app.use(
+  cors({
+    origin: [
+      "https://sparkly-bombolone-96ff25.netlify.app",
+      "http://localhost:5173",
+    ],
+    methods: "GET,POST,PUT,DELETE",
+    allowedHeaders: "Content-Type,Authorization",
+    credentials: true, // If you are using cookies or authentication
+  })
+);
 
 // Body parser middleware
 app.use(express.json());
