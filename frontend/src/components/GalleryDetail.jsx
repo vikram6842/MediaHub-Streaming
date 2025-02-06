@@ -94,7 +94,7 @@ const GalleryDetail = () => {
               className="group relative block aspect-square overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-800 transition-transform hover:scale-105 hover:shadow-xl"
             >
               <img
-                src={`http://localhost:8000${item.path}`}
+                src={`https://mediahub-streaming.onrender.com${item.path}`}
                 alt={item.name}
                 className="h-full w-full object-cover object-center transition-opacity group-hover:opacity-90"
               />

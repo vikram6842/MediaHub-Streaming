@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Create an Axios instance
 const API = axios.create({
-  baseURL: "http://localhost:8000/api/media",
+  baseURL: "https://mediahub-streaming.onrender.com/api/media",
   headers: {
     "Content-Type": "application/json",
     "X-Requested-With": "XMLHttpRequest",
@@ -52,15 +52,15 @@ export const fetchMediaById = async (id) => {
 
 // ✅ Stream Video (return direct URL)
 export const streamVideo = (lessonId) => {
-  return `http://localhost:8000/api/media/videos/stream/${lessonId}`;
+  return `https://mediahub-streaming.onrender.com/api/media/videos/stream/${lessonId}`;
 };
 
 // ✅ Stream Audio (return direct URL)
 export const streamAudio = (lessonId) => {
-  return `http://localhost:8000/api/media/audios/stream/${lessonId}`;
+  return `https://mediahub-streaming.onrender.comaming.onrender.com/api/media/audios/stream/${lessonId}`;
 };
 
 // Get serve Image (return direct URL)
 export const serveImage = (lessonId) => {
-  return `http://localhost:8000/api/media/images/serve/${lessonId}`;
+  return `https://mediahub-streaming.onrender.com/api/media/images/serve/${lessonId}`;
 };

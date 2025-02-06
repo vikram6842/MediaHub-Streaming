@@ -88,7 +88,7 @@ const MediaList = () => {
             >
               {item.type === "image" && (
                 <img
-                  src={`http://localhost:8000${item.path}`}
+                  src={`https://mediahub-streaming.onrender.com${item.path}`}
                   alt={item.name}
                   className="h-full w-full object-cover transition-opacity group-hover:opacity-90"
                 />
