@@ -10,37 +10,48 @@ import connectToDB from "./config/mongoose.js";
 import routes from "./routes/index.js";
 import errorHandler from "./middleware/errorHandler.js";
 
+// Load environment variables
 dotenv.config();
 
-if (
-  !process.env.PORT ||
-  !process.env.CORS_ORIGIN ||
-  !process.env.UPLOAD_DIR ||
-  !process.env.VIDEO_DIR ||
-  !process.env.IMAGE_DIR ||
-  !process.env.AUDIO_DIR
-) {
-  console.error("Missing required environment variables!");
-  process.exit(1); // Exit if essential env variables are missing
+// Validate required environment variables
+const requiredEnvVars = [
+  "PORT",
+  "CORS_ORIGIN",
+  "UPLOAD_DIR",
+  "VIDEO_DIR",
+  "IMAGE_DIR",
+  "AUDIO_DIR",
+];
+
+const missingVars = requiredEnvVars.filter((key) => !process.env[key]);
+
+if (missingVars.length > 0) {
+  console.error(
+    `❌ Missing required environment variables: ${missingVars.join(", ")}`
+  );
+  process.exit(1); // Exit the application
 }
 
+// Define __dirname for ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const port = process.env.PORT || 8000;
 
+// Initialize Express app
 const app = express();
+const PORT = process.env.PORT || 8000;
 
-// Apply helmet globally with custom configuration
+// Apply security middleware
 app.use(
   helmet({
-    contentSecurityPolicy: false, // Disable Content Security Policy if causing issues
-    crossOriginEmbedderPolicy: false, // Disable cross-origin embedder policy
-    crossOriginOpenerPolicy: false, // Disable cross-origin opener policy
-    crossOriginResourcePolicy: false, // Disable cross-origin resource policy
-    xssFilter: false, // Disable XSS protection if causing issues
+    contentSecurityPolicy: false,
+    crossOriginEmbedderPolicy: false,
+    crossOriginOpenerPolicy: false,
+    crossOriginResourcePolicy: false,
+    xssFilter: false,
   })
 );
 
+// Logging middleware
 app.use(morgan("combined"));
 
 // Rate limiting middleware
@@ -51,22 +62,23 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
-// CORS options
+// CORS Configuration
 const corsOptions = {
-  origin: ["http://localhost:5173", "http://localhost:5173"],
+  origin: process.env.CORS_ORIGIN.split(","), // Support multiple origins
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
   credentials: true,
 };
-
 app.use(cors(corsOptions));
 
 // Body parser middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Connect to MongoDB
 connectToDB();
 
+// Static file serving
 app.use(
   "/uploads",
   express.static(path.join(__dirname, process.env.UPLOAD_DIR), {
@@ -74,7 +86,7 @@ app.use(
   })
 );
 
-// Serve video streams with appropriate headers and CORS settings
+// Serve video streams
 app.use(
   "/api/media/videos/stream",
   express.static(path.join(__dirname, process.env.VIDEO_DIR), {
@@ -90,18 +102,22 @@ app.use(
   })
 );
 
+// Main Routes
 app.use("/", routes);
 
+// Error Handling Middleware
 app.use(errorHandler);
 
+// Graceful Shutdown
 const shutdown = () => {
-  console.log("Shutting down gracefully...");
+  console.log("🛑 Shutting down gracefully...");
   process.exit(0);
 };
 
 process.on("SIGTERM", shutdown);
 process.on("SIGINT", shutdown);
 
-app.listen(port, () => {
-  console.log(`🚀 Server running at http://localhost:${port}`);
+// Start Server
+app.listen(PORT, () => {
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
