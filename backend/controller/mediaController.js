@@ -32,9 +32,8 @@ export const uploadMedia = asyncHandler(async (req, res) => {
 
     ensureDirectoriesExistence(directories);
 
-    console.log(req.file);
-
     Media.uploadFile(req, res, async (err) => {
+      console.log(req.file);
       if (err)
         return res.status(400).json({ success: false, message: err.message });
 
