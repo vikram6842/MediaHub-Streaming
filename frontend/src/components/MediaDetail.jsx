@@ -30,13 +30,17 @@ const MediaDetail = () => {
         setLocalMedia(data.media);
         setMedia(data.media);
 
+        let url = "";
         if (data.media.type === "video") {
-          setMediaUrl(`${streamVideo(data.media.lessonId)}`);
+          url = streamVideo(data.media.lessonId);
         } else if (data.media.type === "audio") {
-          setMediaUrl(`${streamAudio(data.media.lessonId)}`);
+          url = streamAudio(data.media.lessonId);
         } else if (data.media.type === "image") {
-          setMediaUrl(`${serveImage(data.media.lessonId)}`);
+          url = serveImage(data.media.lessonId);
         }
+
+        setMediaUrl(url);
+        console.log("Media URL set to:", url);
       } catch (err) {
         setError(`Error: ${err.message}`);
       } finally {
@@ -132,7 +136,7 @@ const MediaDetail = () => {
                   <img
                     src={
                       mediaUrl ||
-                      `${import.meta.env.VITE_BASE_URL}${media.path}`
+                      `https://mediahub-streaming.onrender.com${media.path}`
                     }
                     alt={media.name}
                     className="rounded-lg w-full h-auto object-contain max-h-[70vh] transition-opacity hover:opacity-95"

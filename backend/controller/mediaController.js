@@ -32,6 +32,8 @@ export const uploadMedia = asyncHandler(async (req, res) => {
 
     ensureDirectoriesExistence(directories);
 
+    console.log(req.file);
+
     Media.uploadFile(req, res, async (err) => {
       if (err)
         return res.status(400).json({ success: false, message: err.message });
@@ -68,6 +70,8 @@ export const uploadMedia = asyncHandler(async (req, res) => {
         path: mediaUrl,
         lessonId,
       });
+
+      console.log(media);
 
       res.status(201).json({
         success: true,

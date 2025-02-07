@@ -13,6 +13,7 @@ const MediaList = () => {
     setIsLoading(true);
     try {
       const { data } = await fetchAllMedia();
+
       setMedia(data.mediaFiles);
     } catch (err) {
       setError("Failed to load media: " + err.message);
@@ -88,7 +89,7 @@ const MediaList = () => {
             >
               {item.type === "image" && (
                 <img
-                  src={`${import.meta.env.VITE_BASE_URL}${item.path}`}
+                  src={`https://mediahub-streaming.onrender.com${item.path}`}
                   alt={item.name}
                   className="h-full w-full object-cover transition-opacity group-hover:opacity-90"
                 />
