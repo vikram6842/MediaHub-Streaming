@@ -15,18 +15,33 @@ const router = express.Router();
 router.post("/upload", allowControl, uploadMedia);
 
 // Route for fetching all media
-router.get("/", preventDownload, getAllMedia);
+router.get("/", allowControl, preventDownload, getAllMedia);
 
 // Route for fetching a specific media by ID
-router.get("/:id", preventDownload, getMediaById);
+router.get("/:id", allowControl, preventDownload, getMediaById);
 
 // Route for streaming video
-router.get("/videos/stream/:lessonId", preventDownload, streamMedia);
+router.get(
+  "/videos/stream/:lessonId",
+  allowControl,
+  preventDownload,
+  streamMedia
+);
 
 // Route for serving images
-router.get("/images/serve/:lessonId", preventDownload, serveImage);
+router.get(
+  "/images/serve/:lessonId",
+  allowControl,
+  preventDownload,
+  serveImage
+);
 
 // Route for streaming audio
-router.get("/audios/stream/:lessonId", preventDownload, streamAudio);
+router.get(
+  "/audios/stream/:lessonId",
+  allowControl,
+  preventDownload,
+  streamAudio
+);
 
 export default router;
