@@ -64,9 +64,10 @@ app.use(limiter);
 
 app.use(
   cors({
-    origin: "*", // Allows requests from any origin
+    origin: process.env.CORS_ORIGIN.split(","), // Convert comma-separated string into an array
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true, // If you are using cookies or authentication
   })
 );
 
